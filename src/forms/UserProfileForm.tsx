@@ -28,7 +28,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
     const form = useForm<UserFormData>({
         resolver: zodResolver(formSchema),
         //TODO: values not getting prepoluated
-        defaultValues: currentUser,
+        defaultValues: currentUser
     })
 
     useEffect(() => {
@@ -47,7 +47,8 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
                         View and edit your profile details below
                     </FormDescription>
                 </div>
-                <FormField
+                {/*TODO: email not populating */}
+                {/* <FormField
                     control={form.control}
                     name="email"
                     render={({ field }) => (
@@ -60,7 +61,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
                             </FormControl>
                         </FormItem>
                     )}
-                />
+                /> */}
                 <FormField
                     control={form.control}
                     name="name"
