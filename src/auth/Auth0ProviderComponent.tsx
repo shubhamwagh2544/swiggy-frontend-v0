@@ -8,10 +8,10 @@ type Props = {
 const Auth0ProviderComponent = ({ children }: Props) => {
     const navigate = useNavigate()
 
-    const domain = import.meta.env.VITE_AUTH0_DOMAIN
-    const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID
-    const redirectUri = import.meta.env.VITE_AUTH0_CALLBACK_URL
-    const audience = import.meta.env.VITE_AUTH0_AUDIENCE
+    const domain = import.meta.env.VITE_AUTH0_DOMAIN as string
+    const clientId = import.meta.env.VITE_AUTH0_CLIENT_ID as string
+    const redirectUri = import.meta.env.VITE_AUTH0_CALLBACK_URL as string
+    const audience = import.meta.env.VITE_AUTH0_AUDIENCE as string
 
     if (!domain || !clientId || !redirectUri || !audience) {
         throw new Error("Auth0 unable to initialize. Missing configuration.")
