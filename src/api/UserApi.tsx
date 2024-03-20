@@ -10,7 +10,7 @@ type CreateUserRequest = {
 }
 
 export const useCreateUser = () => {
-    const {getAccessTokenSilently} = useAuth0()
+    const { getAccessTokenSilently } = useAuth0()
 
     const createUserRequest = async (user: CreateUserRequest) => {
         const accesstoken = await getAccessTokenSilently()
@@ -23,6 +23,7 @@ export const useCreateUser = () => {
         if (!response.data) {
             throw new Error('Error creating user')
         }
+        return response.data
     }
 
     const {
@@ -37,5 +38,45 @@ export const useCreateUser = () => {
         isLoading,
         isSuccess,
         isError
+    }
+}
+
+type UserUpdateRequest = {
+    name: string
+    addressLine: string
+    city: string
+    country: string
+}
+
+export const useUpdateUser = () => {
+    const { getAccessTokenSilently } = useAuth0()
+    const updateUserRequest = async (user: UserUpdateRequest) => {
+        const accesstoken = await getAccessTokenSilently()
+        const response = await axios.put(`${API_BASE_URL}/api/user`, user, {
+            headers: {
+                Authorization: `Bearer ${accesstoken}`,
+                'Content-Type': 'application/json'
+            }
+        })
+        if (!response.data) {
+            throw new Error('Error updating user')
+        }
+        return response.data
+    }
+
+    const {
+        mutateAsync: updateUser,
+        isLoading,
+        isSuccess,
+        isError,
+        reset
+    } = useMutation(updateUserRequest)
+
+    return {
+        updateUser,
+        isLoading,
+        isSuccess,
+        isError,
+        reset
     }
 }

@@ -1,5 +1,13 @@
+import { useUpdateUser } from "@/api/UserApi";
 import UserProfileForm from "@/forms/UserProfileForm";
 
 export default function UserProfilePage() {
-    return <UserProfileForm />
+
+    const { updateUser, isLoading } = useUpdateUser()
+
+    return (
+        <>
+            <UserProfileForm onSave={updateUser} isLoading={isLoading} />
+        </>
+    )
 }
