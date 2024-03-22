@@ -21,13 +21,12 @@ type UserFormData = zod.infer<typeof formSchema>
 type Props = {
     currentUser: User
     onSave: (userProfileData: UserFormData) => void
-    isLoading: boolean
+    isLoading: boolean,
 }
 
 const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
     const form = useForm<UserFormData>({
         resolver: zodResolver(formSchema),
-        //TODO: values not getting prepoluated
         defaultValues: currentUser
     })
 
@@ -47,8 +46,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
                         View and edit your profile details below
                     </FormDescription>
                 </div>
-                {/*TODO: email not populating */}
-                {/* <FormField
+                <FormField
                     control={form.control}
                     name="email"
                     render={({ field }) => (
@@ -61,7 +59,7 @@ const UserProfileForm = ({ onSave, isLoading, currentUser }: Props) => {
                             </FormControl>
                         </FormItem>
                     )}
-                /> */}
+                />
                 <FormField
                     control={form.control}
                     name="name"
