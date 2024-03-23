@@ -9,6 +9,8 @@ import MenuSection from './MenuSection'
 import ImageSection from './ImageSection'
 import LoadingButton from '@/components/LoadingButton'
 import { Button } from '@/components/ui/button'
+import { Restaurant } from '@/types'
+import { useEffect } from 'react'
 
 const restaurantFormSchema = zod.object({
     restaurantName: zod.string({
@@ -50,10 +52,11 @@ type RestaurantFormData = zod.infer<typeof restaurantFormSchema>
 
 type Props = {
     onSave: (restaurantFormData: FormData) => void,
-    isLoading: boolean
+    isLoading: boolean,
+    restaurant?: Restaurant
 }
 
-const ManageRestaurantForm = ({ onSave, isLoading }: Props) => {
+const ManageRestaurantForm = ({ onSave, isLoading, restaurant }: Props) => {
     const form = useForm<RestaurantFormData>({
         resolver: zodResolver(restaurantFormSchema),
         defaultValues: {
@@ -64,6 +67,21 @@ const ManageRestaurantForm = ({ onSave, isLoading }: Props) => {
             }]
         }
     })
+
+    useEffect(() => {
+        if (restaurant) {
+            form.reset({
+                restaurantName: restaurant.restaurantName,
+                city: restaurant.city,
+                country: restaurant.country,
+                deliveryPrice: restaurant.deliveryPrice,
+                estimatedDeliveryTime: restaurant.estimatedDeliveryTime,
+                cuisines: restaurant.cuisines,
+                menuItems: restaurant.menuItems,
+                imageUrl: restaurant.imageUrl
+            })
+        }
+    }, [form, restaurant])
 
     function onSubmit(formDataJson: RestaurantFormData) {
         const formData = new FormData()
@@ -80,7 +98,7 @@ const ManageRestaurantForm = ({ onSave, isLoading }: Props) => {
             formData.append(`menuItems[${index}][price]`, menuItem.price.toString())
         })
         formData.append('imageFile', formDataJson.imageFile as File)
-        
+
         onSave(formData)
     }
 
