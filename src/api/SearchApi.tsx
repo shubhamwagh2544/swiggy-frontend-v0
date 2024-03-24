@@ -14,9 +14,10 @@ export const useSearchRestaurants = (searchState: SearchState, city?: string) =>
 
         let url = city ? `${API_BASE_URL}/api/search/${city}` : `${API_BASE_URL}/api/search`
         const encodedSearchQuery = encodeURIComponent(searchState.searchQuery.trim())
-        
-        if (encodedSearchQuery) {
-            url += `?searchQuery=${encodedSearchQuery}`
+        const encodedPageQuery = encodeURIComponent(searchState.page.toString())
+
+        if (encodedSearchQuery || encodedPageQuery) {
+            url += `?searchQuery=${encodedSearchQuery}&page=${encodedPageQuery}`
         }
 
         const response = await axios.get(url)
