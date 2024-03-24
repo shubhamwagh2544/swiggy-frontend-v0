@@ -22,7 +22,11 @@ export default function HomePage() {
                 <span className="text-xl">
                     Food is just click away!
                 </span>
-                <SearchBar placeholder='Search by city or town near you...' onSubmit={handleSubmit}/>
+                <SearchBar
+                searchQuery=''
+                    placeholder='Search by city or town near you...'
+                    onSubmit={handleSubmit}
+                />
             </div>
             <div className="grid md:grid-cols-2 gap-5">
                 <img src={landingimage} alt="landing-image" />
