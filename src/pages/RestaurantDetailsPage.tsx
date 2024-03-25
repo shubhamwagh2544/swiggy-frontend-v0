@@ -1,9 +1,10 @@
 import { useGetSearchedRestaurant } from "@/api/SearchApi";
+import CheckoutButton from "@/components/CheckoutButton";
 import MenuItemComponent from "@/components/MenuItem";
 import OrderSummary from "@/components/OrderSummary";
 import RestaurantInfo from "@/components/RestaurantInfo";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Card } from "@/components/ui/card";
+import { Card, CardFooter } from "@/components/ui/card";
 import { MenuItem } from "@/types";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
@@ -20,7 +21,11 @@ export default function RestaurantDetailsPage() {
 
     const { restaurantId } = useParams()
     const { restaurant, isLoading } = useGetSearchedRestaurant(restaurantId)
-    const [cartItems, setCartItems] = useState<CartItem[]>([])
+    
+    const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+        const storedCartItems = sessionStorage.getItem(`cartItems-${restaurantId}`)
+        return storedCartItems ? JSON.parse(storedCartItems) : []
+    })
 
     if (isLoading || !restaurant) {
         return <span>Loading...</span>
@@ -51,6 +56,13 @@ export default function RestaurantDetailsPage() {
                     },
                 ];
             }
+
+            // save state to sessionStorage
+            sessionStorage.setItem(
+                `cartItems-${restaurantId}`,
+                JSON.stringify(updatedCartItems)
+            )
+
             return updatedCartItems;
         });
     };
@@ -60,6 +72,13 @@ export default function RestaurantDetailsPage() {
             const updatedCartItems = prevCartItems.filter(
                 (item) => item._id !== cartItem._id
             )
+
+            // save state to sessionStorage
+            sessionStorage.setItem(
+                `cartItems-${restaurantId}`,
+                JSON.stringify(updatedCartItems)
+            )
+
             return updatedCartItems
         })
     }
@@ -90,6 +109,9 @@ export default function RestaurantDetailsPage() {
                             cartItems={cartItems}
                             removeFromCart={removeFromCart}
                         />
+                        <CardFooter>
+                            <CheckoutButton />
+                        </CardFooter>
                     </Card>
                 </div>
             </div>
