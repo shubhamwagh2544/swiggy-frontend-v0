@@ -55,6 +55,15 @@ export default function RestaurantDetailsPage() {
         });
     };
 
+    function removeFromCart(cartItem: CartItem) {
+        setCartItems((prevCartItems) => {
+            const updatedCartItems = prevCartItems.filter(
+                (item) => item._id !== cartItem._id
+            )
+            return updatedCartItems
+        })
+    }
+
     return (
         <div className="flex flex-col gap-10">
             <AspectRatio ratio={16 / 5}>
@@ -76,7 +85,11 @@ export default function RestaurantDetailsPage() {
                 </div>
                 <div>
                     <Card>
-                        <OrderSummary restaurant={restaurant} cartItems={cartItems} />
+                        <OrderSummary
+                            restaurant={restaurant}
+                            cartItems={cartItems}
+                            removeFromCart={removeFromCart}
+                        />
                     </Card>
                 </div>
             </div>
