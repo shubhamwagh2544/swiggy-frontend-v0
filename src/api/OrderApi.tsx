@@ -1,6 +1,7 @@
+import { Order } from "@/types"
 import { useAuth0 } from "@auth0/auth0-react"
 import axios from "axios"
-import { useMutation } from "react-query"
+import { useMutation, useQuery } from "react-query"
 import { toast } from "sonner"
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL as string
@@ -62,5 +63,34 @@ export const useCreateCheckoutSession = () => {
         isSuccess,
         isError,
         error
+    }
 }
+
+export const useGetMyOrders = () => {
+
+    const { getAccessTokenSilently } = useAuth0()
+
+    const getMyOrdersRequest = async (): Promise<Order[]> => {
+        const token = await getAccessTokenSilently()
+        const response = await axios.get(`${API_BASE_URL}/api/order`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+
+        if (!response.data) {
+            throw new Error('Error getting my orders')
+        }
+        return response.data
+    }
+
+    const {
+        data: orders,
+        isLoading,
+    } = useQuery('getMyOrders', getMyOrdersRequest)
+
+    return {
+        orders,
+        isLoading
+    }
 }
