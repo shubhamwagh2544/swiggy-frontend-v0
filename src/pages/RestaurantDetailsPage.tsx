@@ -1,3 +1,4 @@
+import { useCreateCheckoutSession } from "@/api/OrderApi";
 import { useGetSearchedRestaurant } from "@/api/SearchApi";
 import CheckoutButton from "@/components/CheckoutButton";
 import MenuItemComponent from "@/components/MenuItem";
@@ -22,6 +23,7 @@ export default function RestaurantDetailsPage() {
 
     const { restaurantId } = useParams()
     const { restaurant, isLoading } = useGetSearchedRestaurant(restaurantId)
+    const { createCheckoutSession, isLoading: isCheckoutLoading } = useCreateCheckoutSession()
 
     const [cartItems, setCartItems] = useState<CartItem[]>(() => {
         const storedCartItems = sessionStorage.getItem(`cartItems-${restaurantId}`)
@@ -32,8 +34,29 @@ export default function RestaurantDetailsPage() {
         return <span>Loading...</span>
     }
 
-    function onCheckout(userFormData: UserFormData) {
-        console.log('user', userFormData)
+    async function onCheckout(userFormData: UserFormData) {
+        if (!restaurant) {
+            return
+        }
+
+        const checkoutData = {
+            cartItems: cartItems.map((cartItem) => ({
+                menuItemId: cartItem._id,
+                name: cartItem.name,
+                quantity: cartItem.quantity.toString()
+            })),
+            restaurantId: restaurant?._id,
+            deliveryDetails: {
+                email: userFormData.email as string,
+                name: userFormData.name,
+                addressLine: userFormData.addressLine,
+                city: userFormData.city,
+                country: userFormData.country
+            }
+        }
+
+        const data = await createCheckoutSession(checkoutData)
+        window.location.href = data.url
     }
 
     function addToCart(menuItem: MenuItem) {
@@ -118,6 +141,7 @@ export default function RestaurantDetailsPage() {
                             <CheckoutButton
                                 disabled={cartItems.length === 0}
                                 onCheckout={onCheckout}
+                                isLoading={isCheckoutLoading}
                             />
                         </CardFooter>
                     </Card>
