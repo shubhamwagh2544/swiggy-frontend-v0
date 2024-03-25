@@ -11,6 +11,9 @@ export const useSearchRestaurants = (searchState: SearchState, city?: string) =>
 
         //const params = new URLSearchParams()
         //params.set('searchQuery', searchState.searchQuery)
+        //params.set('page', searchState.page.toString())
+        //params.set('selectedCuisines', searchState.selectedCuisine.join(','))
+        //params.set('sortOption', searchState.sortOption)
 
         let url = city ? `${API_BASE_URL}/api/search/${city}` : `${API_BASE_URL}/api/search`
         const encodedSearchQuery = encodeURIComponent(searchState.searchQuery.trim())
@@ -48,7 +51,7 @@ export const useSearchRestaurants = (searchState: SearchState, city?: string) =>
 
 export const useGetSearchedRestaurant = (restaurantId?: string) => {
     const getSearchedRestaurantRequest = async (): Promise<Restaurant> => {
-        const response = await axios.get(`${API_BASE_URL}/api/search/${restaurantId}`)
+        const response = await axios.get(`${API_BASE_URL}/api/search/detail/${restaurantId}`)
         if (!response.data) {
             throw new Error('Error getting searched restaurant')
         }
@@ -58,7 +61,11 @@ export const useGetSearchedRestaurant = (restaurantId?: string) => {
     const {
         data: restaurant,
         isLoading,
-    } = useQuery('getSearchedRestaurant', getSearchedRestaurantRequest)
+    } = useQuery(
+        'getSearchedRestaurant',
+        getSearchedRestaurantRequest,
+        { enabled: !!restaurantId }
+    )
 
     return {
         restaurant,
