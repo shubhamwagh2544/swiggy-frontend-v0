@@ -15,9 +15,10 @@ export const useSearchRestaurants = (searchState: SearchState, city?: string) =>
         let url = city ? `${API_BASE_URL}/api/search/${city}` : `${API_BASE_URL}/api/search`
         const encodedSearchQuery = encodeURIComponent(searchState.searchQuery.trim())
         const encodedPageQuery = encodeURIComponent(searchState.page.toString())
+        const encodedSelectedCuisines = searchState.selectedCuisine.map(cuisine => encodeURIComponent(cuisine)).join(',')
 
-        if (encodedSearchQuery || encodedPageQuery) {
-            url += `?searchQuery=${encodedSearchQuery}&page=${encodedPageQuery}`
+        if (encodedSearchQuery || encodedPageQuery || encodedSelectedCuisines) {
+            url += `?searchQuery=${encodedSearchQuery}&page=${encodedPageQuery}&selectedCuisines=${encodedSelectedCuisines}`
         }
 
         const response = await axios.get(url)
