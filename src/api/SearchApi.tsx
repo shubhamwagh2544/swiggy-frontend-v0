@@ -1,5 +1,5 @@
 import { SearchState } from "@/pages/SearchPage"
-import { RestaurantSearchResponse } from "@/types"
+import { Restaurant, RestaurantSearchResponse } from "@/types"
 import axios from "axios"
 import { useQuery } from "react-query"
 //import { URLSearchParams } from "url"
@@ -42,6 +42,26 @@ export const useSearchRestaurants = (searchState: SearchState, city?: string) =>
 
     return {
         restaurants,
+        isLoading
+    }
+}
+
+export const useGetSearchedRestaurant = (restaurantId?: string) => {
+    const getSearchedRestaurantRequest = async (): Promise<Restaurant> => {
+        const response = await axios.get(`${API_BASE_URL}/api/search/${restaurantId}`)
+        if (!response.data) {
+            throw new Error('Error getting searched restaurant')
+        }
+        return response.data
+    }
+
+    const {
+        data: restaurant,
+        isLoading,
+    } = useQuery('getSearchedRestaurant', getSearchedRestaurantRequest)
+
+    return {
+        restaurant,
         isLoading
     }
 }

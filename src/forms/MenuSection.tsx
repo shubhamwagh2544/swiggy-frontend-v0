@@ -21,7 +21,7 @@ export default function MenuSection() {
             </div>
             <FormField
                 control={control}
-                name="menuItems"    
+                name="menuItems"
                 render={({ }) => (
                     <FormItem className="flex flex-col gap-2">
                         {
@@ -37,7 +37,7 @@ export default function MenuSection() {
             />
             <Button
                 type="button"
-                onClick={() => append({ name: '', price: '' })}
+                onClick={() => append({ name: '', price: 0 })}
             >
                 Add Menu Item
             </Button>
