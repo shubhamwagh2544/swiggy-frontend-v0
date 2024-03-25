@@ -4,6 +4,7 @@ import PaginationSelector from "@/components/PaginationSelector";
 import SearchBar, { SearchForm } from "@/components/SearchBar";
 import SearchResultCard from "@/components/SearchResultCard";
 import SearchResultInfo from "@/components/SearchResultInfo";
+import SortOptionDropdown from "@/components/SortOptionDropdown";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -11,6 +12,7 @@ export type SearchState = {
     searchQuery: string
     page: number
     selectedCuisine: string[]
+    sortOption: string
 }
 
 export default function SearchPage() {
@@ -19,7 +21,8 @@ export default function SearchPage() {
     const [searchState, setSearchState] = useState<SearchState>({
         searchQuery: '',
         page: 1,
-        selectedCuisine: []
+        selectedCuisine: [],
+        sortOption: 'bestMatch'
     })
     const [isExpanded, setIsExpanded] = useState<boolean>(false)
 
@@ -49,6 +52,14 @@ export default function SearchPage() {
         }))
     }
 
+    function setSortOption(sortOption: string) {
+        setSearchState((prevState) => ({
+            ...prevState,
+            sortOption,
+            page: 1
+        }));
+    }
+
     function setPage(page: number) {
         setSearchState((prevState) => ({
             ...prevState,
@@ -71,7 +82,7 @@ export default function SearchPage() {
                     selectedCuisines={searchState.selectedCuisine}
                     onChange={setSelectedCuisines}
                     isExpanded={isExpanded}
-                    onExpandedClick={() => 
+                    onExpandedClick={() =>
                         setIsExpanded((prevIsExpanded) => !prevIsExpanded)
                     }
                 />
@@ -83,7 +94,13 @@ export default function SearchPage() {
                     placeholder="Search by cuisine, restaurant name, or dish..."
                     onReset={resetSearch}
                 />
-                <SearchResultInfo total={restaurants.pagination.total} city={city} />
+                <div className="flex justify-between flex-col gap-3 lg:flex-row">
+                    <SearchResultInfo total={restaurants.pagination.total} city={city} />
+                    <SortOptionDropdown
+                        sortOption={searchState.sortOption}
+                        onChange={(value) => setSortOption(value)}
+                    />
+                </div>
                 {
                     restaurants.data.map((restaurant) => (
                         <SearchResultCard restaurant={restaurant} />

@@ -21,8 +21,8 @@ export default function MenuSection() {
             </div>
             <FormField
                 control={control}
-                name="menuItems"
-                render={({ field }) => (
+                name="menuItems"    
+                render={({ }) => (
                     <FormItem className="flex flex-col gap-2">
                         {
                             fields.map((_, index) => (

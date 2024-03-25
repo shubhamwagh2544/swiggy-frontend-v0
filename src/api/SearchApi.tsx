@@ -16,9 +16,10 @@ export const useSearchRestaurants = (searchState: SearchState, city?: string) =>
         const encodedSearchQuery = encodeURIComponent(searchState.searchQuery.trim())
         const encodedPageQuery = encodeURIComponent(searchState.page.toString())
         const encodedSelectedCuisines = searchState.selectedCuisine.map(cuisine => encodeURIComponent(cuisine)).join(',')
+        const encodedSortOption = encodeURIComponent(searchState.sortOption)
 
-        if (encodedSearchQuery || encodedPageQuery || encodedSelectedCuisines) {
-            url += `?searchQuery=${encodedSearchQuery}&page=${encodedPageQuery}&selectedCuisines=${encodedSelectedCuisines}`
+        if (encodedSearchQuery || encodedPageQuery || encodedSelectedCuisines || encodedSortOption) {
+            url += `?searchQuery=${encodedSearchQuery}&page=${encodedPageQuery}&selectedCuisines=${encodedSelectedCuisines}&sortOption=${encodedSortOption}`
         }
 
         const response = await axios.get(url)
