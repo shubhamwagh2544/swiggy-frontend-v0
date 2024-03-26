@@ -46,6 +46,7 @@ export type Order = {
         menuItemId: string
         name: string
         quantity: string
+        price: number
     }[]
     deliveryDetails: {
         email: string
