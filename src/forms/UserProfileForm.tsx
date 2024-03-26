@@ -33,7 +33,7 @@ const UserProfileForm = ({
     currentUser,
     title = "User Profile",
     buttonText = "Submit",
-    subTitle="View and edit your profile details below"
+    subTitle = "View and edit your profile details below"
 }: Props) => {
     const form = useForm<UserFormData>({
         resolver: zodResolver(formSchema),
