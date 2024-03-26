@@ -103,3 +103,53 @@ export const useGetMyRestaurantOrders = () => {
         isLoading
     }
 }
+
+type UpdateOrderStatusRequest = {
+    orderId: string
+    status: string
+}
+
+export const useUpdateOrderStatus = () => {
+    const { getAccessTokenSilently } = useAuth0()
+
+    const updateOrderStatusRequest = async (updateOrderStatusRequest: UpdateOrderStatusRequest): Promise<Order> => {
+        const accesstoken = await getAccessTokenSilently()
+        const response = await axios.patch(
+            `${API_BASE_URL}/api/restaurant/order/${updateOrderStatusRequest.orderId}/status`,
+            { status: updateOrderStatusRequest.status }, {
+            headers: {
+                Authorization: `Bearer ${accesstoken}`,
+                "Content-Type": "application/json"
+            }
+        })
+        if (!response.data) {
+            throw new Error('Error updating order status')
+        }
+        return response.data
+    }
+
+    const {
+        mutateAsync: updateOrderStatus,
+        isLoading,
+        isSuccess,
+        isError,
+        error,
+        reset
+    } = useMutation(updateOrderStatusRequest)
+
+    if (isSuccess) {
+        toast.success('Order status updated successfully')
+    }
+    if (error) {
+        toast.error('Error updating order status')
+        reset()
+    }
+
+    return {
+        updateOrderStatus,
+        isLoading,
+        isSuccess,
+        isError,
+        error
+    }
+}
