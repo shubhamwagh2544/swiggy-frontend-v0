@@ -1,30 +1,23 @@
-# React + TypeScript + Vite
+# Swiggy-v0
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Project Description
 
-Currently, two official plugins are available:
+Swiggy-v0 is a sophisticated web application designed to revolutionize the food delivery experience, offering users seamless access to a wide range of restaurants and cuisines. With a focus on user convenience and efficiency, Swiggy-v0 provides an intuitive platform for browsing menus, placing orders, and tracking deliveries in real-time.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Key Features
 
-## Expanding the ESLint configuration
+1. **User Authentication:** Swiggy-v0 ensures secure access to user accounts with robust authentication features, including login, logout, and profile management functionalities.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+2. **Restaurant Management:** For restaurant owners, Swiggy-v0 offers comprehensive management tools, enabling them to create and manage menus, update restaurant details, and monitor orders effectively.
 
-- Configure the top-level `parserOptions` property like this:
+3. **Order Management:** Swiggy-v0 facilitates seamless order management with features such as order status updates, order items for restaurant cards, and tabs under manage restaurant for efficient operations.
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+4. **Search and Filtering:** Users can easily discover restaurants based on their preferences using Swiggy-v0's advanced search and filtering capabilities, including cuisine filters, sorting options, and a user-friendly search bar.
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+5. **Payment Integration:** Swiggy-v0 integrates Stripe for secure payment processing, allowing users to proceed to payment seamlessly and providing custom hooks for checkout sessions.
+
+6. **Notification System:** Swiggy-v0 keeps users informed about important updates and actions with a built-in notification system, featuring toasts for real-time notifications.
+
+## Deployment
+
+A live demo of the Swiggy-v0 application is available [here](https://swiggy-v0-client.onrender.com/), providing users with the opportunity to explore its features firsthand.
